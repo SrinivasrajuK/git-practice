@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0.37
+    container_name: content12
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - my-network
+  springboot:
+    image: myapp:latest
+    container_name: my_app121
+    restart: always
+    ports: 
+    - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/mydb?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 9090
+    volumes:
+      - springboot-data:/Users/srinivas.raju/Desktop/docker12
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge
+volumes:
+  mysql-data:
+  springboot-data:
+
+
+
+
+
+
+
+
+
+
+
+
